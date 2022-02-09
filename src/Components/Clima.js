@@ -6,8 +6,10 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons"
 import { faBars } from "@fortawesome/free-solid-svg-icons"
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import TarjetasHora from "./TarjetasHora"
 import ModalError from "./ModalError"
+import CiudadesFavs from "./CiudadesFavs"
 
 class Clima extends React.Component {
 
@@ -25,6 +27,7 @@ class Clima extends React.Component {
             ciudadesEncontradas: {},
             ciudadesDisponibles: [],
             modalBusqueda: false,
+            modalFavs: false,
             modalError: false,
             datosCargados: false
         }
@@ -54,6 +57,7 @@ class Clima extends React.Component {
                     esDia: data.current.is_day,
                     ciudadPorBuscar: data.location.name,
                     ciudadActual: data.location.name,
+                    ubicacionActual: data.location.name,
                     pais: data.location.country,
                     localtime: (data.location.localtime),
                     horaLocalEspecifica: Number((data.location.localtime).substring(11, 13)),
@@ -68,9 +72,6 @@ class Clima extends React.Component {
 
 
     render() {
-
-        console.log(this.state.pronostico)
-
         const nombresDias = ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"]
         const hoy = new Date()
         const diaIndice = hoy.getDay()
@@ -156,7 +157,6 @@ class Clima extends React.Component {
             fetch(`http://api.weatherapi.com/v1/search.json?key=9658158b8c4544859d4194427210410&q=${event.target.value}`)
                 .then(res => res.json())
                 .then(data => this.setState({ ciudadesEncontradas: data }))
-
         }
 
         const actualizarCiudad = (ciudad) => {
@@ -176,8 +176,6 @@ class Clima extends React.Component {
                 }))
             if (this.state.modalBusqueda) {
                 toggleModalBusqueda()
-            } else {
-                console.log("nada :P")
             }
         }
 
@@ -208,18 +206,72 @@ class Clima extends React.Component {
                     modalBusqueda: false
                 }))
             }
+            actualizarStorage()
+        }
+
+        const eliminarFav = (e) => {
+            const ciudad = e.ciudadActual
+            this.setState({
+                ciudadesDisponibles: this.state.ciudadesDisponibles.filter(e => e.name !== ciudad)
+            })
+            actualizarCiudad(this.state.ciudadActual)
+            actualizarStorage()
+        }
+
+        const infoLocal = () => {
+            return JSON.parse(localStorage.ciudadesDisponibles).map(e => {
+                return (
+                    <FontAwesomeIcon icon={faCircle} className="item-fav" onClick={() => actualizarCiudad(e.name)} />
+                )
+            })
         }
 
         const favoritos = this.state.ciudadesDisponibles.map(e => {
             return (
                 <FontAwesomeIcon icon={faCircle} className="item-fav" onClick={() => actualizarCiudad(e.name)} />
             )
-        })       
+        })
+
+        const toggleModalFavs = () => {
+            this.setState(prevState => ({
+                modalFavs: !prevState.modalFavs
+            }))
+        }
+
+        const actualizarStorage = () => {
+            if (this.state.ciudadesDisponibles.length === 0) {
+                localStorage.removeItem("ciudadesDisponibles")
+            } else {
+                localStorage.setItem("ciudadesDisponibles", JSON.stringify(this.state.ciudadesDisponibles))
+            }
+        }
+
+        
+        const almacenarLocalmente = () => {
+            const ciudadesAlmacendasLocal = []
+            if(localStorage.ciudadesDisponibles){
+                JSON.parse(localStorage.ciudadesDisponibles).map(e => {
+                    ciudadesAlmacendasLocal.push(e)
+                })
+                return ciudadesAlmacendasLocal
+            }else{
+                return false
+            }
+        }
+
 
         return (
             <>
                 {this.state.datosCargados === false ? <Cargador /> : ""}
-                
+                {this.state.modalFavs ?
+                    <CiudadesFavs
+                        ubicacionActual={this.state.ubicacionActual}
+                        ciudadesDisponibles={almacenarLocalmente() ? almacenarLocalmente() : this.state.ciudadesDisponibles}
+                        handleClick={() => toggleModalFavs()}
+                        eliminarFav={(e) => eliminarFav(e)}
+                        actualizarStorage={() => actualizarStorage()}
+                    />
+                    : ""}
                 <div className={this.state.modalBusqueda ? "fondo-modal" : "fondo-modal ocultar"}>
                     <div className={this.state.modalBusqueda ? "cuerpo-opciones" : "cuerpo-opciones ocultar"}>
                         <div className="opciones">
@@ -229,7 +281,7 @@ class Clima extends React.Component {
                                 </div>
                                 <div>
                                     <span onClick={toggleModalBusqueda} className="close">
-                                        <FontAwesomeIcon icon={faTimes}/>
+                                        <FontAwesomeIcon icon={faTimes} />
                                     </span>
                                 </div>
                             </div>
@@ -248,16 +300,23 @@ class Clima extends React.Component {
                         </div>
                     </div>
                 </div>
-                {this.state.modalError ? <ModalError handleClick={() => toggleModalError()}/> : ""}
+                {this.state.modalError ? <ModalError handleClick={() => toggleModalError()} /> : ""}
                 <div className={`contenedor-principal ${this.state.esDia === 1 ? "fondo-dia" : "fondo-noche"}`}>
+
                     <div className="barra-nav">
                         <div className="nombre-logo">
                             <p>Weather App</p>
                         </div>
-                        <div className={`boton-desplegar ${this.state.esDia === 1 ? "desplegar-dia" : "desplegar-noche"}`} onClick={toggleModalBusqueda}>
-                            <FontAwesomeIcon icon={faBars} />
+                        <div className={`boton-desplegar ${this.state.esDia === 1 ? "desplegar-dia" : "desplegar-noche"}`} >
+                            <div>
+                                <FontAwesomeIcon icon={faSearch} onClick={toggleModalBusqueda} />
+                            </div>
+                            <div>
+                                <FontAwesomeIcon icon={faBars} onClick={toggleModalFavs} />
+                            </div>
                         </div>
                     </div>
+
                     <div className="contenedor-escritorio">
                         <div className="contenedor-uno">
                             <div className="ubicacion">
@@ -272,8 +331,10 @@ class Clima extends React.Component {
                                 {this.state.condiciones}
                             </div>
                             <div className="disponibles">
-                                {this.state.datosCargados === false ? "" : <FontAwesomeIcon icon={faLocationArrow} className="item-fav" onClick={() => actualizarCiudad(this.state.ciudadActual)} />}
-                                {favoritos}
+                                {/* {this.state.datosCargados === false ? "" : <FontAwesomeIcon icon={faLocationArrow} className="item-fav" onClick={() => actualizarCiudad(this.state.ciudadActual)} />} */}
+                                {/* {this.state.datosCargados ? favoritos : ""} */}
+                                <FontAwesomeIcon icon={faLocationArrow} className="item-fav" onClick={() => actualizarCiudad(this.state.ciudadActual)} />
+                                {localStorage.ciudadesDisponibles ? infoLocal() : favoritos}
                             </div>
                         </div>
                         <div className="contenedor-dos">

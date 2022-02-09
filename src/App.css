@@ -9,6 +9,125 @@ ul{
   list-style-type: none;
 }
 
+
+.header-favs{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 10%;
+}
+
+.header-favs-icono{
+  margin: 0 8px;
+}
+
+.header-favs-icono:hover{
+  transform: scale(1.3);
+  transition-duration: .3s;
+  cursor: pointer;
+}
+
+.header-favs div{
+  margin: 0 20px;
+}
+
+.lista-favs{
+  width: 100%;
+  height: 90%;
+  font-size: .8em;
+}
+
+.lista-favs ul{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lista-favs li{
+  cursor: pointer;
+  height: 8%;
+  width: 90%;
+  display: flex;
+  margin: 8px 0;
+  border-radius: 5px;
+  background-color: rgba(255, 207, 144, 0.605);
+}
+
+.item-favs{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.item-favs-uno{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 80%;
+}
+
+.item-favs-uno-uno{
+  display: flex;
+  flex-direction: column;
+}
+
+
+.item-favs-dos{
+  height: 100%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-fav-icono img{
+  width: 32px;
+  height: auto;
+}
+
+.item-fav-eliminar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin:  0 16px;
+  animation-name: aparecer-izq;
+  animation-duration: .35s;
+}
+
+@keyframes aparecer-izq{
+  0%{
+    transform: translateX(-25px);
+    opacity: 0;
+  }
+  
+  100%{
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.item-fav-eliminar-icono{
+  background-color: red;
+  padding: 3px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.item-fav-eliminar-icono:hover{
+  transform: scale(1.3);
+  transition-duration: .3s;
+}
+
 .disponibles{
   display: flex;
   flex-direction: row;
@@ -38,6 +157,7 @@ ul{
 
 .item-fav:hover{
   transform: scale(1.5);
+  transition-duration: .3s;
 }
 
 .ocultar{
@@ -58,8 +178,13 @@ ul{
 }
 
 .boton-desplegar{
+  display: flex;
   cursor: pointer;
   margin: 0 16px 0 16px;
+}
+
+.boton-desplegar div{
+  margin: 0 8px;
 }
 
 .desplegar-dia{
@@ -117,6 +242,13 @@ ul{
   border-radius: 8px;
   margin: 10px auto;
   width: 90%;
+  text-align: center;
+  
+}
+
+.temperatura{
+  width: 10%;
+  text-align: center;
 }
 
 /*Modal de ciudades*/
@@ -126,6 +258,8 @@ ul{
   position: absolute;
   height: 110vh;
   width: 100vw;
+  animation-name: aparecer;
+  animation-duration: .5s;
 }
 
 .header-buscar{
@@ -146,6 +280,7 @@ ul{
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 .opciones input,h2{
@@ -168,8 +303,12 @@ ul{
 }
 
 .lista-buscar{
+  height: 100%;
   width: 90%;
   margin: 5px auto;
+  overflow-y: scroll;
+  animation-name: aparecer;
+  animation-duration: 1s;
 }
 
 .item-busqueda{
@@ -179,6 +318,8 @@ ul{
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 5px;
   margin: 10px 0;
+  animation-name: aparecer;
+  animation-duration: .25s;
 }  
 
 /* Modal de error */
@@ -309,16 +450,43 @@ ul{
   .contenedor-dos{
     width: 60%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .icono img{
-    width: 48px;
-    height: auto;
+  .contenedor-lista{
+    width: 100%;
+  }
+
+  .lista{
+    width: 100%;
+    height: 100%;
   }
 
   .item-hora{
-    margin: 8px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    margin: 5px auto;
+    width: 90%;
   }
+  
+  .icono img{
+    width: 20px;
+    height: auto;
+  }
+  
+  .item-busqueda{
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px 0;
+  } 
 
   .lista li{
     padding: 0;
@@ -355,6 +523,109 @@ ul{
   .error-header span{
     margin: 5px 8px 0 0;
   }
+
+  
+  .barra-nav{
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    height: 40px;
+  }
+
+  .header-favs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 10%;
+  }
+  
+  .header-favs div{
+    margin: 0 20px;
+  }
+  
+  .lista-favs{
+    width: 100%;
+    height: 90%;
+    font-size: .8em;
+  }
+  
+  .lista-favs ul{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lista-favs li{
+    background-color: rgba(255, 255, 255, 0.05);
+    height: 15%;
+    width: 90%;
+    display: flex;
+    margin: 8px 0;
+    border-radius: 5px;
+  }
+  
+  .item-favs{
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .item-favs-uno{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 80%;
+  }
+  
+  .item-favs-uno-uno{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .item-favs-dos{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  
+  .lista-buscar{
+    height: 100%;
+    width: 90%;
+    margin: 5px auto;
+    overflow-y: scroll;
+  }
+
+  .lista-buscar::-webkit-scrollbar{
+    width: 5px;
+  }
+
+  .lista-buscar::-webkit-scrollbar{
+    background-color: rgb(0, 0, 0);
+  }
+
+  .lista-buscar::-webkit-scrollbar-thumb{
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .boton-desplegar div:hover{
+    transform: scale(1.3);
+    color: black;
+    transition-duration: .3s;
+  }
+
 }
 
 @media (min-width: 750px) and (max-width: 1200px){
@@ -405,4 +676,14 @@ ul{
   }
 }
 
+@keyframes aparecer {
+  0% {
+    transform: translateY(-150px);
+    opacity: 0;
+  }
 
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

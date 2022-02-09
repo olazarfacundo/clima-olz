@@ -1,6 +1,5 @@
 import './App.css';
 import Clima from "./Components/Clima"
-import Fetch from './Components/Fetch';
 
 function App() {
 
