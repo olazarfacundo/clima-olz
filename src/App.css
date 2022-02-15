@@ -53,7 +53,6 @@ ul{
   display: flex;
   margin: 8px 0;
   border-radius: 5px;
-  background-color: rgba(255, 207, 144, 0.605);
 }
 
 .item-favs{
@@ -61,6 +60,8 @@ ul{
   flex-direction: row;
   justify-content: center;
   width: 100%;
+  background-color: rgb(126, 126, 126);
+  border-radius: 5px;
 }
 
 .item-favs-uno{
@@ -75,7 +76,6 @@ ul{
   display: flex;
   flex-direction: column;
 }
-
 
 .item-favs-dos{
   height: 100%;

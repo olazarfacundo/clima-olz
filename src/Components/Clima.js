@@ -228,7 +228,7 @@ class Clima extends React.Component {
 
         const favoritos = this.state.ciudadesDisponibles.map(e => {
             return (
-                <FontAwesomeIcon icon={faCircle} className="item-fav" onClick={() => actualizarCiudad(e.name)} />
+                <FontAwesomeIcon icon={faCircle} className={`item-favs ${this.state.datosCargados ? "" : "ocultar"}`} onClick={() => actualizarCiudad(e.name)} />
             )
         })
 
@@ -333,7 +333,7 @@ class Clima extends React.Component {
                             <div className="disponibles">
                                 {/* {this.state.datosCargados === false ? "" : <FontAwesomeIcon icon={faLocationArrow} className="item-fav" onClick={() => actualizarCiudad(this.state.ciudadActual)} />} */}
                                 {/* {this.state.datosCargados ? favoritos : ""} */}
-                                <FontAwesomeIcon icon={faLocationArrow} className="item-fav" onClick={() => actualizarCiudad(this.state.ciudadActual)} />
+                                <FontAwesomeIcon icon={faLocationArrow} className={`item-fav ${this.state.datosCargados ? "" : "ocultar"}`} onClick={() => actualizarCiudad(this.state.ciudadActual)} />
                                 {localStorage.ciudadesDisponibles ? infoLocal() : favoritos}
                             </div>
                         </div>
