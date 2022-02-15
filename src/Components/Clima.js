@@ -48,7 +48,7 @@ class Clima extends React.Component {
             };
 
             const coords = await getCoords();
-            fetch(`http://api.weatherapi.com/v1/forecast.json?key=9658158b8c4544859d4194427210410&q=${this.state.lat},${this.state.long}&days=3&aqi=no&alerts=no&lang=es`)
+            fetch(`https://api.weatherapi.com/v1/forecast.json?key=9658158b8c4544859d4194427210410&q=${this.state.lat},${this.state.long}&days=3&aqi=no&alerts=no&lang=es`)
                 .then(res => res.json())
                 .then(data => this.setState({
                     clima: data.current,
@@ -154,13 +154,13 @@ class Clima extends React.Component {
         }
 
         const buscarCiudades = (event) => {
-            fetch(`http://api.weatherapi.com/v1/search.json?key=9658158b8c4544859d4194427210410&q=${event.target.value}`)
+            fetch(`https://api.weatherapi.com/v1/search.json?key=9658158b8c4544859d4194427210410&q=${event.target.value}`)
                 .then(res => res.json())
                 .then(data => this.setState({ ciudadesEncontradas: data }))
         }
 
         const actualizarCiudad = (ciudad) => {
-            fetch(`http://api.weatherapi.com/v1/forecast.json?key=9658158b8c4544859d4194427210410&q=${ciudad}&days=7&aqi=no&alerts=no&lang=es`)
+            fetch(`https://api.weatherapi.com/v1/forecast.json?key=9658158b8c4544859d4194427210410&q=${ciudad}&days=7&aqi=no&alerts=no&lang=es`)
                 .then(res => res.json())
                 .then(data => this.setState({
                     clima: data.current,
